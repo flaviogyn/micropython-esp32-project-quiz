@@ -28,7 +28,7 @@ Para instalar o Thonny no seu PC com Windows, siga as próximas instruções:
 
 **2.** Baixe o Instalador para Windows e espere alguns segundos enquanto ele baixa.
 
-![[Pasted image 20260422000609.png]]
+![alt text](image.png)
 
 **3.** Execute o _arquivo .exe_.
 
@@ -36,7 +36,7 @@ Para instalar o Thonny no seu PC com Windows, siga as próximas instruções:
 
 ![Instalando o IDE Thonny no Windows](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2022/03/Installing-Thonny-IDE-Windows.png?resize=499%2C392&quality=100&strip=all&ssl=1)
 
-### Instalando o firmware MicroPython usando o IDE Thonny
+## Instalando o firmware MicroPython usando o IDE Thonny
 
 Nesta seção, você vai aprender a instalar firmware MicroPython nas placas usando o IDE Thonny. Siga os próximos passos:
 
