@@ -18,35 +18,51 @@
 - ESP32 Wrown
 - DHT11
 - LCD 16x2 I2C
+- Buzzer
 
-## 🔧 Passo 1: Preparação para uso no VSCode
-  1. Abra o VS Code.
-    1.2. Vá ao ícone de Extensions (ou aperte Ctrl+Shift+X).
-    1.3. Procure por "MicroPico" (antiga Pico-W-Go) e clique em Install.
-    1.4. Certifique-se de que você tem o Python instalado no seu Windows (baixe na Microsoft Store ou em python.org).
+## Instalação do IDE Thonny – PC com Windows
 
-  2. Configurando o Raspberry Pi Pico
-    Para o VS Code "conversar" com a placa, ela precisa estar rodando o firmware do MicroPython:
-    2.1. Segure o botão BOOTSEL do Pico e conecte-o ao USB.
-    2.2. Ele aparecerá como um pendrive chamado RPI-RP2.
-    2.3. Arraste o arquivo .uf2 do MicroPython para dentro dele (baixe o mais recente no site oficial do Raspberry Pi). 
-    2.4. Acesse o link: https://www.raspberrypi.com/documentation/microcontrollers/micropython.html
-    2.5. A placa vai reiniciar e o "pendrive" vai sumir.
+Para instalar o Thonny no seu PC com Windows, siga as próximas instruções:
 
-  3. Conectando e Programando
-    3.1. Com o MicroPico instalado, você verá uma barra azul na parte inferior do VS Code.
-    3.2. Clique em "Pico Disconnected" (ou use o Command Palette Ctrl+Shift+P e digite MicroPico: Connect).
-    3.3. Assim que aparecer "Pico Connected", o terminal do VS Code se tornará o REPL do MicroPython (onde você pode digitar comandos diretamente na placa).
+**1.** Ir para [https://thonny.org](https://thonny.org/)
 
-## 🎞 Passo 2: Instalando as Bibliotecas no Pico via VSCode
-  Usando a extensão MicroPico:
+**2.** Baixe o Instalador para Windows e espere alguns segundos enquanto ele baixa.
 
-  1. Crie um novo arquivo no seu projeto no VS Code chamado pico_i2c_lcd.py.
+![[Pasted image 20260422000609.png]]
 
-  2. Cole o conteúdo da biblioteca I2C LCD. Como não posso fornecer arquivos diretamente, você pode encontrar a biblioteca padrão "MicroPython I2C LCD" de terceiros pesquisando por esp8266-python/pico_i2c_lcd.py no GitHub ou repositórios similares. Ela é essencial para interpretar os comandos para o módulo I2C.
-  
-  3. Upload: Clique com o botão direito no arquivo pico_i2c_lcd.py e escolha "MicroPico: Upload current file to Pico". Isso salva a biblioteca dentro da placa.
+**3.** Execute o _arquivo .exe_.
 
+**4.** Siga o assistente de instalação para concluir o processo de instalação. Você só precisa clicar em "Próximo".
+
+![Instalando o IDE Thonny no Windows](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2022/03/Installing-Thonny-IDE-Windows.png?resize=499%2C392&quality=100&strip=all&ssl=1)
+
+### Instalando o firmware MicroPython usando o IDE Thonny
+
+Nesta seção, você vai aprender a instalar firmware MicroPython nas placas usando o IDE Thonny. Siga os próximos passos:
+
+![](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMjU5MiAwLjU4NjMwOUMxMC45NDk4IDAuNjc2MTIzIDEwLjM2OCAwLjg5ODU1NSAxMC4xNDE1IDEuMzQzNjJDOS45MjgxOSAxLjc2MjIxIDEwLjA2OSAyLjMzNzU0IDEwLjE5NzUgMi42N0MxMC41MDY3IDIuNTgwMjkgMTEuMDg5OSAyLjM1Nzg2IDExLjMxNjUgMS45MTIzOEMxMS41NDMyIDEuNDY3MzEgMTEuMzczMSAwLjg4MTIwOCAxMS4yNTkyIDAuNTg2MzA5VjAuNTg2MzA5Wk05LjkwMDYxIDMuMjU1OUw5LjgxMjMgMy4wODUyQzkuNzg4OTMgMy4wMzk3MyA5LjI0MjA5IDEuOTYyNzggOS42NzMwMyAxLjExNjg4QzEwLjEwMzYgMC4yNzA3NzggMTEuMzEzNiAwLjA0MzkzMjEgMTEuMzY0OCAwLjAzNDY5NEwxMS41NTc2IDBMMTEuNjQ1OSAwLjE3MDY5OUMxMS42NjkzIDAuMjE2MTcxIDEyLjIxNiAxLjI5MzAyIDExLjc4NDkgMi4xMzkxMkMxMS4zNTQ4IDIuOTg0ODIgMTAuMTQ0NyAzLjIxMTg3IDEwLjA5MzMgMy4yMjExMUw5LjkwMDYxIDMuMjU1OVoiIGZpbGw9IiM5MTkxOTEiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yLjY0NDc1IDIuNjQ3NzlDMi41NzkxNyAxLjI4MzQzIDEuNDQwMjIgMC4xOTQ4NzggMC4wMzI5NTkgMC4xNjE2MjFWNS4zODI1NkMwLjAzNDAxMTYgNS4zODI1NiAwLjAzNTA2NDIgNS4zODI0NiAwLjAzNjExNjkgNS4zODIzNkMwLjEwMTY5NiA2Ljc0NjcyIDEuMjQwNjQgNy44MzUzNyAyLjY0NzkxIDcuODY4NTJWMi42NDc2OUMyLjY0Njg1IDIuNjQ3NjkgMi42NDU4IDIuNjQ3NzkgMi42NDQ3NSAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS43MTcyNiAyLjY0Nzc5QzUuNjUxNjggMS4yODM0MyA0LjUxMjczIDAuMTk0ODc4IDMuMTA1NDcgMC4xNjE2MjFWNS4zODI1NkMzLjEwNjUyIDUuMzgyNTYgMy4xMDc1NyA1LjM4MjQ2IDMuMTA4NzMgNS4zODIzNkMzLjE3NDIxIDYuNzQ2NzIgNC4zMTMxNSA3LjgzNTM3IDUuNzIwNTIgNy44Njg1MlYyLjY0NzY5QzUuNzE5NDcgMi42NDc2OSA1LjcxODMxIDIuNjQ3NzkgNS43MTcyNiAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOC43OTAwMSAyLjY0Nzc5QzguNzI0MzMgMS4yODM0MyA3LjU4NTQ5IDAuMTk0ODc4IDYuMTc4MjIgMC4xNjE2MjFWNS4zODI1NkM2LjE3OTI4IDUuMzgyNTYgNi4xODAzMyA1LjM4MjQ2IDYuMTgxMzggNS4zODIzNkM2LjI0Njk2IDYuNzQ2NzIgNy4zODYwMSA3LjgzNTM3IDguNzkzMTcgNy44Njg1MlYyLjY0NzY5QzguNzkyMTIgMi42NDc2OSA4Ljc5MTA2IDIuNjQ3NzkgOC43OTAwMSAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+Cjwvc3ZnPgo=)
+
+**1)** Conecte seu ESP32 ou placa ESP8266 ao seu computador.
+
+**2)** Abra o IDE Thonny. Vá para **Ferramentas** > **Opções** > **Interpretador**.
+
+**3)** Selecione o interprete que deseja usar de acordo com a placa que está usando e selecione a porta COM à qual sua placa está conectada. Por fim, clique no **link Instalar ou atualizar o MicroPython**.
+
+![Interpretador de IDE Thonny - Instalar ou Atualizar o Firmware](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2022/03/Thonny-IDE-Interpreter-Install-Update-Firmware.png?resize=560%2C558&quality=100&strip=all&ssl=1)
+
+**4)** Depois, selecione novamente a porta, a placa que você está usando e a variante. Ele detectará automaticamente a versão mais recente do firmware MicroPython — veja a captura de tela abaixo. Por fim, você pode clicar **em Instalar**.
+
+![Instale a ferramenta de firmware MicroPython](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2022/03/Install-MicroPython-Thonny-IDE-esptool.png?resize=560%2C550&quality=100&strip=all&ssl=1)
+
+![](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMjU5MiAwLjU4NjMwOUMxMC45NDk4IDAuNjc2MTIzIDEwLjM2OCAwLjg5ODU1NSAxMC4xNDE1IDEuMzQzNjJDOS45MjgxOSAxLjc2MjIxIDEwLjA2OSAyLjMzNzU0IDEwLjE5NzUgMi42N0MxMC41MDY3IDIuNTgwMjkgMTEuMDg5OSAyLjM1Nzg2IDExLjMxNjUgMS45MTIzOEMxMS41NDMyIDEuNDY3MzEgMTEuMzczMSAwLjg4MTIwOCAxMS4yNTkyIDAuNTg2MzA5VjAuNTg2MzA5Wk05LjkwMDYxIDMuMjU1OUw5LjgxMjMgMy4wODUyQzkuNzg4OTMgMy4wMzk3MyA5LjI0MjA5IDEuOTYyNzggOS42NzMwMyAxLjExNjg4QzEwLjEwMzYgMC4yNzA3NzggMTEuMzEzNiAwLjA0MzkzMjEgMTEuMzY0OCAwLjAzNDY5NEwxMS41NTc2IDBMMTEuNjQ1OSAwLjE3MDY5OUMxMS42NjkzIDAuMjE2MTcxIDEyLjIxNiAxLjI5MzAyIDExLjc4NDkgMi4xMzkxMkMxMS4zNTQ4IDIuOTg0ODIgMTAuMTQ0NyAzLjIxMTg3IDEwLjA5MzMgMy4yMjExMUw5LjkwMDYxIDMuMjU1OVoiIGZpbGw9IiM5MTkxOTEiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yLjY0NDc1IDIuNjQ3NzlDMi41NzkxNyAxLjI4MzQzIDEuNDQwMjIgMC4xOTQ4NzggMC4wMzI5NTkgMC4xNjE2MjFWNS4zODI1NkMwLjAzNDAxMTYgNS4zODI1NiAwLjAzNTA2NDIgNS4zODI0NiAwLjAzNjExNjkgNS4zODIzNkMwLjEwMTY5NiA2Ljc0NjcyIDEuMjQwNjQgNy44MzUzNyAyLjY0NzkxIDcuODY4NTJWMi42NDc2OUMyLjY0Njg1IDIuNjQ3NjkgMi42NDU4IDIuNjQ3NzkgMi42NDQ3NSAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNS43MTcyNiAyLjY0Nzc5QzUuNjUxNjggMS4yODM0MyA0LjUxMjczIDAuMTk0ODc4IDMuMTA1NDcgMC4xNjE2MjFWNS4zODI1NkMzLjEwNjUyIDUuMzgyNTYgMy4xMDc1NyA1LjM4MjQ2IDMuMTA4NzMgNS4zODIzNkMzLjE3NDIxIDYuNzQ2NzIgNC4zMTMxNSA3LjgzNTM3IDUuNzIwNTIgNy44Njg1MlYyLjY0NzY5QzUuNzE5NDcgMi42NDc2OSA1LjcxODMxIDIuNjQ3NzkgNS43MTcyNiAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNOC43OTAwMSAyLjY0Nzc5QzguNzI0MzMgMS4yODM0MyA3LjU4NTQ5IDAuMTk0ODc4IDYuMTc4MjIgMC4xNjE2MjFWNS4zODI1NkM2LjE3OTI4IDUuMzgyNTYgNi4xODAzMyA1LjM4MjQ2IDYuMTgxMzggNS4zODIzNkM2LjI0Njk2IDYuNzQ2NzIgNy4zODYwMSA3LjgzNTM3IDguNzkzMTcgNy44Njg1MlYyLjY0NzY5QzguNzkyMTIgMi42NDc2OSA4Ljc5MTA2IDIuNjQ3NzkgOC43OTAwMSAyLjY0Nzc5IiBmaWxsPSIjOTE5MTkxIi8+Cjwvc3ZnPgo=)
+
+**Observação**: Em algumas placas ESP8266, talvez seja necessário tentar diferentes opções para o **modo Flash** e selecionar _detectar_ para o **tamanho do Flash**.
+
+Após alguns segundos, a instalação deve estar concluída. Se você estiver usando um ESP32, pode ser necessário pressionar o botão BOOT por alguns segundos após clicar no _botão Instalar_.
+
+5) Quando a instalação estiver concluída, você pode fechar a janela. Você deve receber a seguinte mensagem no Shell (veja a imagem abaixo), e no canto inferior direito, deve estar o Interpretador que está usando e a porta COM.
+
+![IDE Thonny e Micropython instalados com sucesso no IDE Thonny](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2022/03/thonny-ide-micropython-installed-on-ESP32.png?resize=688%2C617&quality=100&strip=all&ssl=1)
 ## 🛠️ Esquema de Ligação (Pinagem)
 Abaixo estão as conexões necessárias para o Raspberry Pi Pico (2020), o sensor DHT11 e o Display LCD 16x2 com módulo I2C.
 
@@ -58,7 +74,7 @@ Abaixo estão as conexões necessárias para o Raspberry Pi Pico (2020), o senso
 | | GND | GND (Pino 38 ou 3) | Terra |
 | **LCD 16x2 I2C** | VCC | VBUS (Pino 40) | Alimentação 5V (Recomendado p/ o LCD) |
 | | GND | GND (Pino 38 ou 3) | Terra |
-| | SDA | GP4 (Pino 6) | Dados I2C0 SDA |
-| | SCL | GP5 (Pino 7) | Clock I2C0 SCL |
+| | SDA | GP21 (Pino 21) | Dados I2C0 SDA |
+| | SCL | GP22 (Pino 22) | Clock I2C0 SCL |
 
 ---  
