@@ -20,6 +20,11 @@
 - LCD 16x2 I2C
 - Buzzer
 
+## Firmaware
+- ESP32 Model WROWN 2022
+- ESP32_GENERIC-20220117-v1.18.bin
+- https://micropython.org/download/ESP32_GENERIC/
+
 ## Instalação do IDE Thonny – PC com Windows
 
 Para instalar o Thonny no seu PC com Windows, siga as próximas instruções:
@@ -69,12 +74,37 @@ Abaixo estão as conexões necessárias para o Raspberry Pi Pico (2020), o senso
 | Componente | Pino no Componente | Pino no Raspberry Pi Pico | Descrição |
 | :--- | :--- | :--- | :--- |
 | **DHT11** | VCC | 3V3 (Pino 36) | Alimentação 3.3V |
-| | DATA | GP28 (Pino 34) | Sinal de Dados |
+| | DATA | Pino 4 | Sinal de Dados |
 | | NC | - | Não Conectado (apenas p/ módulo 4 pinos) |
 | | GND | GND (Pino 38 ou 3) | Terra |
 | **LCD 16x2 I2C** | VCC | VBUS (Pino 40) | Alimentação 5V (Recomendado p/ o LCD) |
 | | GND | GND (Pino 38 ou 3) | Terra |
 | | SDA | GP21 (Pino 21) | Dados I2C0 SDA |
 | | SCL | GP22 (Pino 22) | Clock I2C0 SCL |
+| **Buzze** | VCC | Pino 15 | Alimentação 3.3V |
+| | GND | GND (Pino 38 ou 3) | Terra |
 
 ---  
+
+## E os endereços de onde estão os projetos:
+
+Aplicação Hospedada
+- https://projetoquiz.onrender.com
+
+Códigos Servidor Web + ESP32
+- https://github.com/Afrain/ProjetoQuiz
+- https://github.com/flaviogyn/micropython-esp32-project-quiz
+
+API
+- https://projetoquiz.onrender.com/api/resultados
+
+## Resultado
+
+### Servidor Web
+![alt text](image-1.png)
+
+### ESP32 (lendo temperatura ambiente)
+![alt text](image-2.png)
+
+### ESP32 (Apresentando resultado)
+![alt text](image-3.png)

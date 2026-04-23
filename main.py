@@ -1,35 +1,41 @@
+# Project: ESP32 Model WR2022
+# Binary: ESP32_GENERIC-20220117-v1.18.bin
+
 from machine import Pin, PWM, I2C
-from time import sleep
-from i2c_lcd import I2cLcd
-import network
+from time import sleep, sleep_ms
+import urequests as requests
+import esp8266_i2c_lcd as esp8266_lcd
+import network, usys
 import dht
 import ujson
 
-# Define ESP32 I2C pins
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400000)
-
-# Scan for I2C devices and print their addresses in decimal and hex
-devices = i2c.scan()
-if not devices:
-    print("No I2C device found.")
-    raise Exception("No I2C devices detected.")
-else:
-    print("I2C devices found:")
-    for device in devices:
-        print("  Decimal: {}, Hex: {}".format(device, hex(device)))
-
+# # Scan for I2C devices and print their addresses in decimal and hex
+# devices = i2c.scan()
+# if not devices:
+#     print("No I2C device found.")
+#     raise Exception("No I2C devices detected.")
+# else:
+#     print("I2C devices found:")
+#     for device in devices:
+#         print("  Decimal: {}, Hex: {}".format(device, hex(device)))
+# 
+# I2C(0) 
+# SDA_PIN = 18
+# SCL_PIN = 19
+# I2C(0) 
+# SDA_PIN = 25
+# SCL_PIN = 26
 
 LED_PIN_2 = 2
 LED_PIN_15 = 15
-DHT_PIN_27 = 27
+DHT_PIN_4 = 4
 SDA_PIN = 21
 SCL_PIN = 22
-DHT_PIN = 14;
 buzzer = PWM(Pin(15))
 
 # Wifi network station credentials
-WIFI_SSID = "EVWE"
-WIFI_PASSWORD = "EVWE@2024"
+WIFI_SSID = "iot-home"
+WIFI_PASSWORD = "012343210"
 
 # API
 URL = "https://projetoquiz.onrender.com/api/resultados"
@@ -72,54 +78,31 @@ note_map = {
     ' ': 0,    # Espaço = silêncio
 }
 
-try:
-    from LiquidCrystal_I2C import LiquidCrystal_I2C
-except ImportError:
-    LiquidCrystal_I2C = None
-
-try:
-    from pico_i2c_lcd import I2cLcd
-except ImportError:
-    I2cLcd = None
-
-try:
-    import urequests as requests
-except ImportError:
-    requests = None
-
 # Atribuições
 led = Pin(LED_PIN_2, Pin.OUT)
 pwm = PWM(Pin(LED_PIN_15))
 pwm.duty(0)
 
 # Inicializa o I2C (I2C0 nos pinos GP21 e GP22)
-i2c = I2C(0, sda=Pin(SDA_PIN), scl=Pin(SCL_PIN), freq=100000)
+i2c = I2C(0, scl=Pin(SCL_PIN), sda=Pin(SDA_PIN), freq=400000)
+lcd = esp8266_lcd.I2cLcd(i2c, esp8266_lcd.DEFAULT_I2C_ADDR, 2, 16)
+
+lcd.move_to(0, 0)
+lcd.putstr("2x16 LCD Iniciado")
+lcd.move_to(0, 1)
 
 # Configuracao do DHT11
-sensor_dht = dht.DHT11(DHT_PIN_27)
+sensor_dht = dht.DHT11(Pin(DHT_PIN_4))
 
 def inicializar_lcd():
-    if LiquidCrystal_I2C is not None:
-        lcd_obj = LiquidCrystal_I2C(I2C_ADDR, I2C_NUM_COLS, I2C_NUM_ROWS, i2c)
-        if hasattr(lcd_obj, "begin"):
-            lcd_obj.begin()
-        if hasattr(lcd_obj, "backlight"):
-            lcd_obj.backlight()
-        return lcd_obj
-
-    if I2cLcd is not None:
-        return I2cLcd(i2c, I2C_ADDR, I2C_NUM_ROWS, I2C_NUM_COLS)
-
-    raise ImportError("Nenhuma biblioteca de LCD I2C disponivel.")
-
-try:
-    lcd = inicializar_lcd()
-except OSError:
-    print("Erro: LCD nao encontrado no endereco I2C", hex(I2C_ADDR))
-    machine.reset()
+    lcd.clear()
+    lcd.move_to(0, 0)
+    lcd.putstr("2x16 Iniciado...")
+    lcd.move_to(0, 1)
+    sleep(1)
 
 def lcd_escrever(coluna, linha, texto):
-    texto = str(texto).ljust(16)[:16]
+    texto = str(texto[:16])
     if hasattr(lcd, "move_to") and hasattr(lcd, "putstr"):
         lcd.move_to(coluna, linha)
         lcd.putstr(texto)
@@ -137,29 +120,51 @@ def ler_e_mostrar():
         lcd_escrever(0, 0, "Temp: {:.1f}C".format(temperatura))
         lcd_escrever(0, 1, "Umid: {:.1f}%".format(umidade))
 
-        print("Lido: T={}C, U={}%".format(temperatura, umidade))
+        print("\nTemp.: {} C, Umid.: {} %".format(temperatura, umidade))
     except OSError as e:
         lcd.clear()
         lcd_escrever(0, 0, "Erro na leitura")
         print("Erro ao ler o sensor DHT11:", e)
 
+# def conWiFiNewEsp32():
+#     sta_if = network.WLAN(network.WLAN.IF_STA); sta_if.active(True)
+#     sta_if.scan()                             # Scan for available access points
+#     sta_if.connect(WIFI_SSID, WIFI_PASSWORD) # Connect to an AP
+#     sta_if.isconnected()                      # Check for successful connection
+#     print('connected!')
+#     
+#     tentativas = 0
+#     while not sta_if.isconnected() and tentativas < 20:
+#         utime.sleep(1)
+#         tentativas += 1
+# 
+#     if not sta_if.isconnected():
+#         raise OSError("Falha ao conectar no Wi-Fi")
+# 
+#     print("connected!")
+#     print(sta_if.ifconfig())
+
 def conWiFi():
-    sta_if = network.WLAN(network.WLAN.IF_STA); sta_if.active(True)
-    sta_if.scan()                             # Scan for available access points
-    sta_if.connect(WIFI_SSID, WIFI_PASSWORD) # Connect to an AP
-    sta_if.isconnected()                      # Check for successful connection
-    print('connected!')
+    # This will create a station interface object.
+    wlan = network.WLAN(network.STA_IF) 
+
+    wlan.active(True)             # Activate the interface so you can use it.
+    if not wlan.isconnected():    # Unless already connected, try to connect.
+        print('connecting to network...')
+        wlan.connect(WIFI_SSID, WIFI_PASSWORD)  # Connect to the station using
+                                                                   # credentials from the json file.
+        if not wlan.isconnected():
+            print("Can't connect to network with given credentials.")
+            usys.exit(0)  # This will programmatically break the execution of this script and return to shell.
     
-    tentativas = 0
-    while not sta_if.isconnected() and tentativas < 20:
-        utime.sleep(1)
-        tentativas += 1
+    print('network config:', wlan.ifconfig())
 
-    if not sta_if.isconnected():
-        raise OSError("Falha ao conectar no Wi-Fi")
-
-    print("connected!")
-    print(sta_if.ifconfig())
+    if wlan.isconnected() == True:    # This test is redundant since connection is tested in the do_connect() method
+        print("Connected")
+        print("My IP address: ", wlan.ifconfig()[0]) # Prints the acquired IP address
+        print("---------")
+    else:
+        print("Not connected")
 
 def obter_nomes_melhor_desempenho():
     if requests is None:
@@ -192,25 +197,22 @@ def mostrar_nomes_melhor_desempenho():
             linha1 = nome[:16]
             linha2 = nome[16:32]
 
-        print(linha1)
-        print(linha2)
-        #lcd.clear()
-        #lcd_escrever(0, 0, linha1)
-        #lcd_escrever(0, 1, linha2)
-
         print("Nomes com melhor desempenho:", nomes)
+        return linha2
+
     except Exception as e:
         lcd.clear()
         lcd_escrever(0, 0, "Erro API")
         lcd_escrever(0, 1, str(e)[:16])
         print("Erro ao buscar resultado da API:", e)
+        return "Sem nome"
 
 def tocar(freq, dur, duty=512):
     pwm.freq(freq)
     pwm.duty(duty)
-    time.sleep_ms(dur)
+    sleep_ms(dur)
     pwm.duty(0)
-    time.sleep_ms(20)
+    sleep_ms(20)
 
 def som_acerto():
     ''' O som de acerto é o som da bandeirada
@@ -222,7 +224,7 @@ def som_acerto():
     tocar(355, 330)
     tocar(269, 200)
     tocar(355, 700)
-    time.sleep_ms(10)
+    sleep_ms(10)
     
 def som_erro():
     ''' O som de erro é o som do Pacman morrendo
@@ -236,7 +238,7 @@ def som_erro():
     tocar(610, 50, 128)
     tocar(624, 50, 64)
 
-    time.sleep_ms(80)
+    sleep_ms(80)
 
     tocar(659, 50, 512)
     tocar(684, 50, 448)
@@ -247,7 +249,7 @@ def som_erro():
     tocar(830, 50, 128)
     tocar(875, 50, 64)
 
-    time.sleep_ms(80)
+    sleep_ms(80)
 
     tocar(981, 50, 512)
     tocar(1049, 50, 448)
@@ -258,7 +260,7 @@ def som_erro():
     tocar(1429, 50, 128)
     tocar(1567, 50, 64)
 
-    time.sleep_ms(80)
+    sleep_ms(80)
 
     tocar(1963, 50, 512)
     tocar(2247, 50, 448)
@@ -287,7 +289,7 @@ def speak_name(name, duration=0.3):
     Cada letra vira uma nota (mapeada pelo alfabeto).
     Parâmetro opcional: duration (duração de cada nota em segundos).
     """
-    buzzer_pin = Pin(25, Pin.OUT)  # Ajuste o pino conforme sua montagem
+    buzzer_pin = Pin(LED_PIN_15, Pin.OUT)  # Ajuste o pino conforme sua montagem
     name_lower = name.lower()
     
     for char in name_lower:
@@ -313,34 +315,55 @@ def obrigado():
 def tone(freq, duration):
     buzzer.freq(freq)
     buzzer.duty(512)
-    time.sleep(duration)
+    sleep(duration)
     buzzer.duty(0)
-    time.sleep(0.05)
+    sleep(0.05)
 
-# Inicialização
-lcd_escrever(0, 0, "Iniciando...")
-sleep(2)
+# Inicialização LCD
+inicializar_lcd()
+#lcd_escrever(0, 0, "Iniciando...")
+sleep(1)
+
+# Desligado
+pwm.duty(0)
 conWiFi()
 
 while True:
     led.on()
-    #som_acerto()
     sleep(1)
-    #som_erro()
 
     # Ler temperatura e humidade
     ler_e_mostrar()
+    sleep(1)
 
     # Busca quem acertou mais pontos
-    mostrar_nomes_melhor_desempenho()
-    sleep(2)
+    ganhador = mostrar_nomes_melhor_desempenho()
+    if ganhador != "Sem nome":
+        print("Ganhador", ganhador)
+        som_acerto()
+        sleep(3)
+        
+        # Escrever no LCD
+        lcd.clear()
+        lcd_escrever(0, 0, ">>> Ganhador <<<")
+        lcd_escrever(0, 1, ganhador)
+
+        # Simula a voz humanda
+        speak_name(ganhador)
+        sleep(5)
+        
+        # Saudação final
+        obrigado()
+        sleep(5)
+    else:
+        # Escrever no LCD
+        lcd.clear()
+        lcd_escrever(0, 0, "Ganhador")
+        lcd_escrever(0, 1, "Nine, Not, ;)")
+
+        som_erro()   
+        sleep(5)
     
-    # Exemplo de uso:
-    #speak_name("Ana")     # Toca as notas para A, n, a
-    #speak_name("João")    # Toca J, o, a, o (note que ç vira silêncio)
-    #speak_name("Maria", duration=0.2)  # Notas mais rápidas
-    
-    #obrigado()
     led.off()
     sleep(1)
     
